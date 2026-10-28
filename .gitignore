@@ -1,0 +1,11 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+.DS_Store
+
+*.zip
+data/__MACOSX/
+data/bank-additional/.Rhistory
+data/bank-additional/.DS_Store
