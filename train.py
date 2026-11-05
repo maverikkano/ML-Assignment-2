@@ -29,7 +29,11 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
 ROOT = Path(__file__).resolve().parent
 DATA_FILE = ROOT / "data" / "bank-additional" / "bank-additional-full.csv"
@@ -47,10 +51,18 @@ TEST_SIZE = 0.2
 
 MODELS = {
     "logistic_regression": LogisticRegression(max_iter=1000, random_state=RANDOM_STATE),
+    "decision_tree": DecisionTreeClassifier(max_depth=8, random_state=RANDOM_STATE),
+    "knn": KNeighborsClassifier(n_neighbors=15, n_jobs=-1),
+    "naive_bayes": GaussianNB(),
+    "svm": SVC(kernel="rbf", probability=False, cache_size=1000, random_state=RANDOM_STATE),
 }
 
 DISPLAY_NAMES = {
     "logistic_regression": "Logistic Regression",
+    "decision_tree": "Decision Tree",
+    "knn": "KNN",
+    "naive_bayes": "Naive Bayes",
+    "svm": "Support Vector Machine",
 }
 
 
