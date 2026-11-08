@@ -5,6 +5,11 @@
 
 ---
 
+## Links
+
+**GitHub Repo:** https://github.com/maverikkano/ML-Assignment-2
+**Streamlit Cloud App:** https://dknkjytsmhfajjdkkpxrf5.streamlit.app/
+
 ## a. Problem statement
 
 A bank calls customers to sell term deposits. Calling everyone is costly, and only
@@ -48,13 +53,7 @@ The file is stored at `data/bank-additional/bank-additional-full.csv`. It uses
 
 ---
 
-## c. Github Repository Link
-
-https://github.com/maverikkano/ML-Assignment-2
-
----
-
-## d. Models used
+## c. Models used
 
 All five models use the same data and the same preprocessing:
 
@@ -113,9 +112,6 @@ python train.py          # optional, retrains the five models
 streamlit run app.py
 ```
 
-## Live app
-
-https://dknkjytsmhfajjdkkpxrf5.streamlit.app/
 
 The app loads the saved models and does not retrain anything. Upload a CSV with
 the input columns and the `y` column, or use the bundled `test_data.csv`, then
@@ -123,8 +119,17 @@ pick a model from the dropdown to see its metrics, confusion matrix and
 classification report. Upload `test_data.csv` unchanged to reproduce the numbers
 in the table above.
 
-**Limitations.** The data is from Portugal in 2008-2010, so the economic columns
-tie the model to that period. All scores use the default 0.5 cut-off, and no
-class balancing is applied, which is why recall is low for the tree and SVM
-models.
+
+## Screenshots
+
+### Prayogshala Portal
+![Prayogshala Portal-1](images/Prayogshala-1.jpg)
+
+![Prayogshala Portal-2](images/Prayogshala-2.jpg)
+
+### Streamlit App
+
+![Prayogshala Portal-1](images/Streamlit-Cloud-App.jpg)
+
+
 
