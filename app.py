@@ -8,10 +8,14 @@ import json
 from pathlib import Path
 
 import joblib
+import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 import streamlit as st
 from sklearn.metrics import (
     accuracy_score,
+    classification_report,
+    confusion_matrix,
     f1_score,
     matthews_corrcoef,
     precision_score,
@@ -146,6 +150,56 @@ def main() -> None:
                 f"{baseline['Accuracy']:.4f}, AUC {baseline['AUC']:.4f}, "
                 f"F1 {baseline['F1']:.4f}, MCC {baseline['MCC']:.4f}"
             )
+
+    left, right = st.columns([1, 1])
+
+    with left:
+        st.subheader("Confusion matrix")
+        matrix = confusion_matrix(labels, predictions)
+        figure, axis = plt.subplots(figsize=(4.2, 3.4))
+        sns.heatmap(
+            matrix,
+            annot=True,
+            fmt="d",
+            cmap="Blues",
+            cbar=False,
+            xticklabels=["no", "yes"],
+            yticklabels=["no", "yes"],
+            ax=axis,
+        )
+        axis.set_xlabel("Predicted")
+        axis.set_ylabel("Actual")
+        st.pyplot(figure, use_container_width=False)
+        plt.close(figure)
+
+    with right:
+        st.subheader("Classification report")
+        report = classification_report(
+            labels, predictions, target_names=["no", "yes"], output_dict=True, zero_division=0
+        )
+        st.dataframe(pd.DataFrame(report).transpose().round(4), use_container_width=True)
+
+    st.subheader("Model comparison")
+    rows = []
+    for name, estimator in estimators.items():
+        other_metrics, _ = compute_metrics(estimator, transformed, labels)
+        rows.append(
+            {"ML Model Name": name,
+             **{m: round(other_metrics[m], 4) for m in METRIC_NAMES}}
+        )
+    comparison = pd.DataFrame(rows)
+    st.dataframe(
+        comparison.style.highlight_max(subset=list(METRIC_NAMES), color="#c6efce"),
+        use_container_width=True,
+    )
+    st.caption("Green cells mark the best score for each metric on this data.")
+
+    with st.expander("Preview of scored data"):
+        preview = frame.head(25).copy()
+        preview["prediction"] = pd.Series(predictions, index=frame.index).map(
+            {1: "yes", 0: "no"}
+        ).head(25)
+        st.dataframe(preview, use_container_width=True)
 
 
 if __name__ == "__main__":
